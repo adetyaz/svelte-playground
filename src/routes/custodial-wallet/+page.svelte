@@ -34,7 +34,7 @@
 </script>
 
 
-<main class="h-screen bg-white grid place-items-center px-12 xl:px-0 text-[#333333]">
+<main class="h-screen bg-white grid place-items-center text-[#333333] overflow-hidden px-8 sm:px-12 xl:px-0">
   <section class="sm:w-1/2 lg:w-1/3 mx-auto grid place-items-center space-y-12">
     <div class="flex items-center gap-4">
       {#each STEPS as {step, stepText} (step)}

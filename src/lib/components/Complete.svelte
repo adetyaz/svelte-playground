@@ -1,5 +1,19 @@
 <script lang="ts">
+	import { animate, easeOut, stagger } from "motion";
+
  let {onclick} = $props()
+
+ $effect(() => {
+    animate("article > *", {
+      opacity: [0, 1],
+      y: [50, 0],
+    }, {delay: stagger(.2), duration: .25, ease: easeOut})
+
+    animate("button", {
+      opacity: [0, 1],
+      y: [50, 0],
+    }, {delay: 1, duration: .5, ease: easeOut})
+  })
 </script>
 
 <article class="grid space-y-2 place-items-center">

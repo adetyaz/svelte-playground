@@ -1,20 +1,20 @@
 <script lang="ts">
-  import { fade, fly, scale } from "svelte/transition";
+  import { fade } from "svelte/transition";
   import {animate} from "motion"
 	
   let {step, stepText, active, currentStep}: { step: number, stepText: string, active: boolean, currentStep: number} = $props()
   
-  let hasAnimated = false 
+  let hasAnimated = $state(false)
 
   $effect(() => {
+    if(step > currentStep){
+      hasAnimated = true
+    }
+
     if(step === currentStep && !hasAnimated) {
-      animate(".check-mark", { opacity: [0, 1], scale: [.5, 1] }, { duration: .5 })
+      console.log(hasAnimated)
+      animate(".check-mark", { opacity: [0, 1], scale: [.5, 1] }, { duration: .5, delay: currentStep === 6 && !hasAnimated ? 1.5 : 0})
     }
-
-    if(step !== currentStep) {
-      hasAnimated = false
-    }
-
   })
   
 

@@ -1,20 +1,35 @@
 <script lang="ts">
+	import { animate, easeOut, stagger } from "motion";
+
   let {onclick, prevStep} = $props()
+
+  $effect(() => {
+    animate(".intro > *, .intro-cards > *, .buttons > button", {
+      opacity: [0, 1],
+      y: [50, 0],
+    }, {delay: stagger(.2), duration: .25, ease: easeOut})
+  })
 </script>
 
 <div class="grid place-items-center space-y-4">
-  <h1 class="text-2xl text-black font-bold">Backup Your Seed Phrase</h1>
-  <p class="text-[#333333] text-center text-sm">Choose how you want to back up your seed phrase for extra security.</p>
-  <div class="grid space-y-4">
+  <div class="grid space-y-2 intro">
+    <h1 class="text-2xl font-bold text-center">Backup Your Seed Phrase</h1>
+    <p class="text-[#3333338f] text-center text-sm">Choose how you want to back up your seed phrase for extra 
+      <br class="hidden xl:block" />
+      security.</p>
+  </div>
+  <div class="grid space-y-4 intro-cards">
     <div class="border border-[#EAECF0] p-2 rounded-xl grid space-y-2 text-sm text-[#333333]">
       <div class="flex gap-2 items-start">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M2.625 14.239V15.375H3.76104C4.68073 15.375 5.14058 15.375 5.55406 15.2037C5.96755 15.0325 6.2927 14.7073 6.94302 14.057L14.341 6.65901C15.0029 5.99709 15.3338 5.66612 15.3704 5.25994C15.3765 5.19279 15.3765 5.12523 15.3704 5.05808C15.3338 4.6519 15.0029 4.32093 14.341 3.65901C13.679 2.99709 13.3481 2.66612 12.9419 2.62954C12.8747 2.62349 12.8072 2.62349 12.74 2.62954C12.3338 2.66612 12.0029 2.99709 11.341 3.65901L3.94302 11.057C3.2927 11.7073 2.96755 12.0325 2.79627 12.446C2.625 12.8594 2.625 13.3193 2.625 14.239Z" stroke="#4D83EE" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M10.125 4.875L13.125 7.875" stroke="#4D83EE" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/>
         </svg> 
-       <h2 class="font-bold">Paper Backup</h2>
+       <div class="grid space-y-2">
+         <h2>Paper Backup</h2>
+         <p class="text-[#3333338f]">Write down your seed phrase on paper and store it in a secure location.</p>
+       </div>
       </div>
-      <p>Write down your seed phrase on paper and store it in a secure location.</p>
     </div>
     <div class="border border-[#EAECF0] p-2 rounded-xl grid space-y-2 text-sm text-[#333333]">
       <div class="flex gap-2 items-start">
@@ -24,10 +39,12 @@
           <path d="M12 11.6175V11.625" stroke="#4D83EE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M9 11.6175V11.625" stroke="#4D83EE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M6 11.6175V11.625" stroke="#4D83EE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>          
-       <h2 class="font-bold">Hardware Wallet</h2>
+        </svg>
+        <div class="grid space-y-2">
+          <h2>Hardware Wallet</h2>
+          <p class="text-[#3333338f]">Store your seed phrase on a hardware wallet for maximum security.</p>
+        </div>          
       </div>
-      <p>Store your seed phrase on a hardware wallet for maximum security.</p>
     </div>
     <div class="border border-[#EAECF0] p-2 rounded-xl grid space-y-2 text-sm text-[#333333]">
       <div class="flex gap-2 items-start">
@@ -39,13 +56,15 @@
           <path d="M9 2.625V6.375" stroke="#4D83EE" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M11.25 2.625V6.375" stroke="#4D83EE" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M13.5 5.25V3.75C13.5 3.12868 14.0037 2.625 14.625 2.625C15.2463 2.625 15.75 3.12868 15.75 3.75V5.25C15.75 5.87132 15.2463 6.375 14.625 6.375C14.0037 6.375 13.5 5.87132 13.5 5.25Z" stroke="#4D83EE" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>    
-       <h2 class="font-bold">Encrypted Backup</h2>
+        </svg>
+        <div class="grid space-y-2">
+          <h2>Encrypted Backup</h2>
+          <p class="text-[#3333338f]">Create an encrypted digital backup protected by a strong password.</p>
+        </div>
       </div>
-      <p>Create an encrypted digital backup protected by a strong password.</p>
     </div>
   </div>
-  <div class="flex items-center gap-4 w-full">
+  <div class="flex items-center gap-4 w-full buttons">
     <button onclick={prevStep} class="text-black py-2 rounded-xl bg-white border border-[#EAECF0] w-full text-sm" aria-label="back">
       Back
     </button>

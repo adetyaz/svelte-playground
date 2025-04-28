@@ -1,12 +1,12 @@
 <script lang="ts">
-  import {animate, stagger} from "motion"
+  import {animate, easeOut, stagger} from "motion"
   let {onclick, prevStep} = $props()
 
   $effect(() => {
     animate(".intro > *, .intro-cards > *, .buttons > button", {
       opacity: [0, 1],
       y: [50, 0],
-    }, {delay: stagger(.3), duration: .3})
+    }, {delay: stagger(.2), duration: .25, ease: easeOut})
   })
 </script>
 
