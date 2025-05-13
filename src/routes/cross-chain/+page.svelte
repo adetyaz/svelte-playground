@@ -1,14 +1,13 @@
 <script lang='ts'>
-	import SelectChain from "$lib/components/SelectChain.svelte";
+  import ConnectWallet from "$lib/components/ConnectWallet.svelte";
+import SelectChain from "$lib/components/SelectChain.svelte";
 import StepProgress from "$lib/components/StepProgress.svelte";
 
-  
-  let step = $state(2)
-  let showAddress = $state(false)
-
+let step = $state(1)
+let showAddress = $state(false)
 </script>
 
-<main class="text-[#333333]  my-auto px-4 w-screen overflow-x-hidden">
+<main class="text-[#333333] h-screen m-auto px-4 w-screen overflow-x-hidden lg:w-1/2 xl:w-2/5 lg:flex flex-col justify-center">
   <article class="grid space-y-2 my-8  text-center">
     <h1 class="text-3xl font-bold">Cross-Chain USDC Transfer</h1>
     <h2 class="text-xs sm:text-sm text-[#3333338f]">Send USDC from Solana to Ethereum using ENS resolution</h2>
@@ -16,27 +15,26 @@ import StepProgress from "$lib/components/StepProgress.svelte";
   <StepProgress {step} />
   <SelectChain />
 
-  <div class="text-sm my-6">
-    <h3>Connect Wallet</h3>
-    <button class="rounded-lg border  px-4 py-2">Connect Solana Wallet</button>
+  <div class="my-6">
+    <ConnectWallet />
   </div>
   <section class="text-sm">
     <div class="rounded-lg bg-[#33333321] p-1 flex items-center justify-between w-full">
       <button class="rounded-lg bg-white w-full py-2 basis-1/2">ENS Name</button>
-      <p>Ethereum Address</p>
+      <button class="rounded-lg bg-transparent w-full py-2 basis-1/2">Ethereum Address</button>
     </div>
-    <div class="flex items-start bg-indigo-500 space-between my-8 w-[90%]">
-      <div class="grid grid-cols-2">
-        <form>
+    <div class="grid grid-cols-[3fr_.5fr] justify-between my-8 w-full space-x-12">
+      <div class="grid grid-cols-[2fr_1fr] space-x-2">
+        <form class="grid">
           <label for="ens name">ENS Name</label>
-          <input type="text" class="text-sm rounded-lg w-fit px-4 py-2 border border-[#3333338f]" />
+          <input type="text" class="text-sm rounded-lg w-[90%] px-4 py-2 border border-[#33333370]" />
         </form>
-        <button class="bg-[#4D83EE] text-white px-4">Resolve</button>
+        <button class="bg-[#4D83EE] rounded-lg text-white h-10 self-end">Resolve</button>
       </div>
-      <form class="relative basis-1/2">
+      <form class="relative grid">
         <label for="amount">Amount (USDC)</label>
-        <input type="text" class="text-sm rounded-xl px-4 py-2 border border-[#3333338f]" />
-        <p class="absolute top-1/2 translate-y-1/2 right-4">USDC</p>
+        <input type="text" class=" text-sm rounded-lg px-4 py-2 border border-[#33333370] justify-self-end" />
+        <span class="absolute top-8 right-1 text-[#33333362]">USDC</span>
       </form>
     </div>
     {#if showAddress}
