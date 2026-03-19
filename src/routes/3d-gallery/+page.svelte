@@ -192,12 +192,14 @@
 </main>
 
 <style>
+	@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+
 	main {
 		min-height: 200svh;
 	}
 
 	.gallery-container {
-		background: red;
+		background: rgba(0, 32, 22, 0.952);
 		perspective: 1500px;
 		position: fixed;
 		overflow: hidden;
@@ -222,8 +224,8 @@
 
 	h1,
 	p {
-		color: white;
-		font-family: monospace;
+		color: rgb(189, 184, 184);
+		font-family: 'DM Sans', sans-serif;
 		text-align: center;
 	}
 
