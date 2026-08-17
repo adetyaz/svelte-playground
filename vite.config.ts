@@ -5,6 +5,12 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
 	plugins: [tailwindcss(), sveltekit()],
+	ssr: {
+		// GSAP ships UMD/CJS entry points that Node can't load as named ESM
+		// exports in serverless runtimes (Netlify/Vercel). Bundling it for SSR
+		// makes Vite resolve the ESM build instead.
+		noExternal: ['gsap']
+	},
 	test: {
 		workspace: [
 			{
