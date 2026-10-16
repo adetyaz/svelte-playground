@@ -37,6 +37,11 @@
 		'text-rev': { note: 'split text on scroll', tag: 'GSAP · TEXT', curve: CURVES.inOut },
 		flip: { note: 'layout magic with gsap flip', tag: 'GSAP · FLIP', curve: CURVES.back },
 		movie: { note: 'browse films, flip between views', tag: 'GSAP · FLIP', curve: CURVES.back },
+		'smooth-slider': {
+			note: 'a film-strip slider that opens up',
+			tag: 'GSAP',
+			curve: CURVES.inOut
+		},
 		'3d-gallery': {
 			note: 'a scroll-triggered depth gallery',
 			tag: 'GSAP · SCROLL',
