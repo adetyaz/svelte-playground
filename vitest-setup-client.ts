@@ -15,4 +15,13 @@ Object.defineProperty(window, 'matchMedia', {
 	}))
 });
 
+// jsdom has no IntersectionObserver; the homepage deck uses one to pause while off screen
+class IntersectionObserverMock {
+	observe = vi.fn();
+	unobserve = vi.fn();
+	disconnect = vi.fn();
+	takeRecords = vi.fn(() => []);
+}
+vi.stubGlobal('IntersectionObserver', IntersectionObserverMock);
+
 // add more mocks here if you need them

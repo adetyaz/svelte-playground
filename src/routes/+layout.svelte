@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../app.css';
-	import '@fontsource/space-mono/400.css';
+	import '@fontsource-variable/martian-mono/standard.css';
 	import { onMount } from 'svelte';
 	import { beforeNavigate, goto } from '$app/navigation';
 	import { gsap } from 'gsap';
@@ -12,7 +12,7 @@
 	let entering = false;
 
 	const destinationName = (pathname: string) => {
-		if (pathname === '/') return 'INDEX';
+		if (pathname === '/') return 'Playground';
 		const slug = pathname.split('/').filter(Boolean).pop() ?? '';
 		return slug
 			.split('-')
@@ -83,7 +83,7 @@
 
 	.wipe-panel {
 		flex: 1;
-		background: #ff5c1f;
+		background: #c8b6ff;
 		transform: scaleY(0);
 		transform-origin: top;
 	}
@@ -93,11 +93,11 @@
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
-		font-family: 'Space Mono', monospace;
-		font-size: 0.85rem;
-		letter-spacing: 0.3em;
-		text-transform: uppercase;
-		color: #081c3a;
+		font-family: 'Martian Mono Variable', monospace;
+		font-size: 0.8rem;
+		font-stretch: 87.5%;
+		letter-spacing: 0.04em;
+		color: #07070b;
 		opacity: 0;
 		visibility: hidden;
 		white-space: nowrap;
