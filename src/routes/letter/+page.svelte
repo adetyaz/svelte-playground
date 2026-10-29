@@ -557,7 +557,7 @@
 										<span class="hanko" aria-hidden="true">AL</span>
 									</div>
 									<p class="ps">
-										P.S. I think the Tadrill case study pages could be improved visually, for example the intro section
+										P.S. I think the Tadrill case study pages could be improved visually, for example the about section
 										<a href="https://hennge.com/global/service/tadrill/ogura/" target="_blank" rel="noreferrer">Ogura Corporation page</a>.
 									</p>
 									<button class="again" onclick={() => goTo(0)}>Back to the beginning ↑</button>
