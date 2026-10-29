@@ -427,8 +427,8 @@
 
 	// Voice note
 
-	/** Self-introduction voice note, served from `static/letter/intro.mp3`. */
-	const VOICE_NOTE = '/letter/intro.mp3';
+	/** Self-introduction voice note, served from `static/letter/intro.m4a`. */
+	const VOICE_NOTE = '/letter/intro.m4a';
 	let voicePaused = $state(true);
 	let voiceTime = $state(0);
 	let voiceDuration = $state(0);
