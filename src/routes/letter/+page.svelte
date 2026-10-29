@@ -46,7 +46,7 @@
 					text: `In 2022 my blockchain journey started. I've always taken part in competitions and hackathons, and one of them had a job offer attached. That's where I first used Cardano, and it opened up a whole new world for me. I went off on my magic carpet trying different things and joined more hackathons, which introduced me to new people and taught me to learn on the fly. It's also how I met my current employer. We worked on a couple of hackathons together and won two at ETHGlobal in 2024 with MyriadFlow, a launchpad for phygitals.`
 				},
 				{
-					text: `I still take part in buildathons on Akindo to keep my mind sharp, using different blockchain technologies for different ideas. Some take off and some never go anywhere, but they keep me building and trying. HENNGE's name comes from "HENNKA" (change) and "challenge", and looking back, my path has been made of both. I'm someone who tries, and I'll always be open to trying new things.`
+					text: `I still take part in buildathons on [Akindo](https://app.akindo.io/users/adetayo4422) to keep my mind sharp, using different blockchain technologies for different ideas. Some take off and some never go anywhere, but they keep me building and trying. HENNGE's name comes from "HENNKA" (change) and "challenge", and looking back, my path has been made of both. I'm someone who tries, and I'll always be open to trying new things.`
 				}
 			]
 		},
@@ -164,7 +164,7 @@
 			title: 'Closing',
 			paragraphs: [
 				{
-					text: `Thank you for reading. My work is on GitHub at github.com/adetyaz. I'd be glad to talk about how I could contribute to HENNGE.`
+					text: `Thank you for reading. My work is on GitHub at [github.com/adetyaz](https://github.com/adetyaz). I'd be glad to talk about how I could contribute to HENNGE.`
 				}
 			]
 		}
@@ -296,11 +296,43 @@
 		setTimeout(() => (opened = true), motion(1900));
 	}
 
+	/** Splits text into plain runs, `[label](url)` links and `[placeholder]` gaps. */
 	function parts(text: string) {
 		return text
-			.split(/(\[[^\]]+\])/)
+			.split(/(\[[^\]]+\](?:\([^)]+\))?)/)
 			.filter(Boolean)
-			.map((value) => ({ value, todo: value.startsWith('[') }));
+			.map((value) => {
+				const link = value.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+				if (link) return { value: link[1], href: link[2], todo: false };
+				return { value, href: undefined, todo: value.startsWith('[') };
+			});
+	}
+
+	/** Letters whose text runs past the paper, until the reader scrolls to the end. */
+	let moreBelow = $state<boolean[]>([]);
+	let frames: HTMLElement[] = [];
+
+	function trackOverflow(node: HTMLElement, i: number) {
+		const update = () => (moreBelow[i] = node.scrollHeight - node.scrollTop - node.clientHeight > 8);
+		const observer = new ResizeObserver(update);
+		observer.observe(node);
+		for (const child of node.children) observer.observe(child);
+		node.addEventListener('scroll', update, { passive: true });
+		update();
+		return {
+			destroy() {
+				observer.disconnect();
+				node.removeEventListener('scroll', update);
+			}
+		};
+	}
+
+	function scrollFrame(i: number) {
+		const frame = frames[i];
+		frame?.scrollBy({
+			top: frame.clientHeight * 0.7,
+			behavior: prefersReducedMotion.current ? 'auto' : 'smooth'
+		});
 	}
 
 	// Sound: synthesised with Web Audio, so there are no audio files to ship.
@@ -457,7 +489,7 @@
 					style:--tilt="{tilts[i][0]}deg"
 					style:--shift={tilts[i][1]}
 				>
-					<div class="frame">
+					<div class="frame" bind:this={frames[i]} use:trackOverflow={i}>
 						<header class="frame-head">
 							<span>{numerals[i]} · {s.romaji}</span>
 						</header>
@@ -515,7 +547,7 @@
 								{#each s.paragraphs as paragraph, k (k)}
 									<p style:--i={k + 1}>
 										{#if paragraph.lead}<span class="lead">{paragraph.lead}</span>{/if}
-										{#each parts(paragraph.text) as part, j (j)}{#if part.todo}<mark>{part.value}</mark>{:else}{part.value}{/if}{/each}
+										{#each parts(paragraph.text) as part, j (j)}{#if part.href}<a href={part.href} target="_blank" rel="noreferrer">{part.value}</a>{:else if part.todo}<mark>{part.value}</mark>{:else}{part.value}{/if}{/each}
 									</p>
 								{/each}
 
@@ -525,7 +557,7 @@
 										<span class="hanko" aria-hidden="true">AL</span>
 									</div>
 									<p class="ps">
-										P.S. I think the Tadrill case study pages could be improved visually, for example the
+										P.S. I think the Tadrill case study pages could be improved visually, for example the intro section
 										<a href="https://hennge.com/global/service/tadrill/ogura/" target="_blank" rel="noreferrer">Ogura Corporation page</a>.
 									</p>
 									<button class="again" onclick={() => goTo(0)}>Back to the beginning ↑</button>
@@ -535,6 +567,12 @@
 						</div>
 
 					</div>
+
+					{#if opened && i === active && moreBelow[i]}
+						<button class="more" onclick={() => scrollFrame(i)} transition:fade={{ duration: motion(250) }}>
+							続 · Scroll for more <span aria-hidden="true">↓</span>
+						</button>
+					{/if}
 
 					<!-- The outside of the folded letter: two halves that swing open, held by a paper band. -->
 					<div class="fold fold-top" aria-hidden="true">
@@ -946,10 +984,57 @@
 		margin-top: 8px;
 	}
 
-	.ps a {
-		color: inherit;
+	/* Links open in a new tab; the arrow says so. */
+	.body a {
+		color: var(--indigo);
 		text-decoration: underline;
+		text-decoration-thickness: 1px;
 		text-underline-offset: 3px;
+		transition: color 0.2s ease;
+	}
+
+	.body a::after {
+		content: ' ↗';
+		font-size: 0.85em;
+	}
+
+	.body a:hover {
+		color: var(--beni);
+	}
+
+	/* Shown while a letter's text runs past the paper; clicking scrolls the paper down. */
+	.more {
+		position: absolute;
+		left: 50%;
+		bottom: clamp(12px, 2.5vw, 20px);
+		z-index: 2;
+		transform: translateX(-50%);
+		padding: 6px 14px;
+		border: 1px solid rgba(31, 26, 23, 0.15);
+		border-radius: 999px;
+		background: rgba(239, 229, 209, 0.94);
+		box-shadow: 0 4px 14px rgba(31, 26, 23, 0.18);
+		color: var(--ink);
+		font-family: 'Zen Kaku Gothic New', system-ui, sans-serif;
+		font-size: 11px;
+		letter-spacing: 0.08em;
+		white-space: nowrap;
+		cursor: pointer;
+		animation: bob 2.4s ease-in-out infinite;
+	}
+
+	.more:hover {
+		color: var(--beni);
+	}
+
+	@keyframes bob {
+		0%,
+		100% {
+			transform: translate(-50%, 0);
+		}
+		50% {
+			transform: translate(-50%, 3px);
+		}
 	}
 
 	.hanko {
