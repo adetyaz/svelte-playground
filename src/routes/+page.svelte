@@ -7,6 +7,12 @@
 	// Routes are discovered from the file system — add or remove a route folder
 	// and the index updates itself. KNOWN only supplies curated metadata.
 	const KNOWN: Record<string, { title?: string; note: string; tag: string; curve: CurveKey }> = {
+		letter: {
+			title: 'Letter to HENNGE',
+			note: 'a cover letter, folded in washi',
+			tag: 'CSS 3D · WEBGL',
+			curve: 'out'
+		},
 		'bike-reveal': {
 			note: 'a product reveal, frame by frame',
 			tag: 'GSAP · SCROLL',
